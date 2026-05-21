@@ -18,12 +18,12 @@ export default function Hero() {
 
     // 2. Soft elastic entry for the mockup illustration
     gsap.from('.hero-mockup-animate', {
-      scale: 0.9,
-      x: 65,
+      scale: 0.95,
+      y: 40,
       opacity: 0,
       duration: 1.2,
       delay: 0.2,
-      ease: 'back.out(1.3)',
+      ease: 'back.out(1.2)',
     });
   }, { scope: containerRef });
 
@@ -38,7 +38,7 @@ export default function Hero() {
       
       <div className="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Hero text */}
-        <div className="flex flex-col gap-8 max-w-2xl">
+        <div className="flex flex-col gap-8 max-w-2xl text-left">
           <div className="hero-animate-item inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary-fixed dark:bg-slate-800 text-on-secondary-fixed dark:text-secondary-container w-fit text-sm font-semibold shadow-xs">
             <span className="material-symbols-outlined text-sm text-secondary dark:text-secondary-container" aria-hidden="true">rocket_launch</span>
             Agencia Digital Profesional
@@ -76,7 +76,7 @@ export default function Hero() {
         </div>
         
         {/* Hero image mockup */}
-        <div className="hero-mockup-animate hidden lg:block relative">
+        <div className="hero-mockup-animate block mt-8 lg:mt-0 relative w-full max-w-lg lg:max-w-none mx-auto">
           <div className="absolute -inset-4 bg-primary/10 dark:bg-secondary-container/10 rounded-2xl blur-xl" />
           <img 
             alt="Dispositivos mostrando sitios web responsivos" 

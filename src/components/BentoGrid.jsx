@@ -39,6 +39,33 @@ export default function BentoGrid() {
     animateOnScroll('.bento-card', { scale: 0.9, y: 40, opacity: 0, duration: 0.9, stagger: 0.12, ease: 'back.out(1.2)' }, '.bento-grid-container');
   }, { scope: containerRef });
 
+  const handleMouseMove = (e) => {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const normalizedX = (x / rect.width) - 0.5;
+    const normalizedY = (y / rect.height) - 0.5;
+    
+    // Smooth responsive max 10 degrees tilt rotation
+    const rotateX = -normalizedY * 10;
+    const rotateY = normalizedX * 10;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.015, 1.015, 1.015)`;
+    card.style.setProperty('--spotlight-x', `${x}px`);
+    card.style.setProperty('--spotlight-y', `${y}px`);
+    card.style.setProperty('--spotlight-opacity', '1');
+  };
+
+  const handleMouseLeave = (e) => {
+    const card = e.currentTarget;
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    card.style.setProperty('--spotlight-opacity', '0');
+  };
+
   return (
     <section 
       ref={containerRef}
@@ -94,48 +121,158 @@ export default function BentoGrid() {
           {/* Right Bento Grid Column */}
           <div className="bento-grid-container lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-4">
             {/* Google Block */}
-            <div className="bento-card group bg-slate-50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center shadow-[0px_4px_15px_rgba(0,0,0,0.02)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-outline-variant/10 dark:border-slate-700/30">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-blue-100 dark:bg-blue-900/30 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
-                <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 text-2xl sm:text-3xl font-semibold select-none" aria-hidden="true">search</span>
+            <div 
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              className="bento-card group relative overflow-hidden bg-slate-50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center shadow-[0px_4px_15px_rgba(0,0,0,0.02)] hover:shadow-xl transition-all duration-300 border border-outline-variant/10 dark:border-slate-700/30"
+            >
+              <div 
+                className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: `radial-gradient(280px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), rgba(99, 102, 241, 0.12), transparent 80%)`,
+                  opacity: `var(--spotlight-opacity, 0)`
+                }}
+                aria-hidden="true"
+              />
+              <div 
+                className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-indigo-500/15 dark:border-indigo-400/20"
+                style={{
+                  maskImage: `radial-gradient(140px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), black 100%, transparent 100%)`,
+                  WebkitMaskImage: `radial-gradient(140px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), black 100%, transparent 100%)`,
+                  opacity: `var(--spotlight-opacity, 0)`
+                }}
+                aria-hidden="true"
+              />
+
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110 relative z-10">
+                <img src="/img/google.webp" alt="Google" className="w-10 h-10 sm:w-12 sm:h-12 object-contain" />
               </div>
-              <span className="font-headline-md text-xl sm:text-2xl text-blue-600 dark:text-blue-400 font-extrabold tracking-tight">Google</span>
-              <span className="text-xs text-text-muted mt-1">SEO Orgánico</span>
+              <span className="font-headline-md text-xl sm:text-2xl text-blue-600 dark:text-blue-400 font-extrabold tracking-tight relative z-10">Google</span>
+              <span className="text-xs text-text-muted mt-1 relative z-10">SEO Orgánico</span>
             </div>
 
             {/* Bing Block */}
-            <div className="bento-card group bg-slate-50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center shadow-[0px_4px_15px_rgba(0,0,0,0.02)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-outline-variant/10 dark:border-slate-700/30">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-teal-100 dark:bg-teal-900/30 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
-                <span className="material-symbols-outlined text-teal-600 dark:text-teal-400 text-2xl sm:text-3xl font-semibold select-none" aria-hidden="true">explore</span>
+            <div 
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              className="bento-card group relative overflow-hidden bg-slate-50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center shadow-[0px_4px_15px_rgba(0,0,0,0.02)] hover:shadow-xl transition-all duration-300 border border-outline-variant/10 dark:border-slate-700/30"
+            >
+              <div 
+                className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: `radial-gradient(280px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), rgba(99, 102, 241, 0.12), transparent 80%)`,
+                  opacity: `var(--spotlight-opacity, 0)`
+                }}
+                aria-hidden="true"
+              />
+              <div 
+                className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-indigo-500/15 dark:border-indigo-400/20"
+                style={{
+                  maskImage: `radial-gradient(140px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), black 100%, transparent 100%)`,
+                  WebkitMaskImage: `radial-gradient(140px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), black 100%, transparent 100%)`,
+                  opacity: `var(--spotlight-opacity, 0)`
+                }}
+                aria-hidden="true"
+              />
+
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110 relative z-10">
+                <img src="/img/bing.webp" alt="Bing" className="w-10 h-10 sm:w-12 sm:h-12 object-contain" />
               </div>
-              <span className="font-headline-md text-xl sm:text-2xl text-[#00809D] dark:text-teal-400 font-extrabold tracking-tight">bing</span>
-              <span className="text-xs text-text-muted mt-1">Visibilidad</span>
+              <span className="font-headline-md text-xl sm:text-2xl text-[#00809D] dark:text-teal-400 font-extrabold tracking-tight relative z-10">bing</span>
+              <span className="text-xs text-text-muted mt-1 relative z-10">Visibilidad</span>
             </div>
 
             {/* Yahoo Block */}
-            <div className="bento-card group bg-slate-50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center shadow-[0px_4px_15px_rgba(0,0,0,0.02)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-outline-variant/10 dark:border-slate-700/30">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-purple-100 dark:bg-purple-900/30 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
-                <span className="material-symbols-outlined text-purple-600 dark:text-purple-400 text-2xl sm:text-3xl font-semibold select-none" aria-hidden="true">language</span>
+            <div 
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              className="bento-card group relative overflow-hidden bg-slate-50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center shadow-[0px_4px_15px_rgba(0,0,0,0.02)] hover:shadow-xl transition-all duration-300 border border-outline-variant/10 dark:border-slate-700/30"
+            >
+              <div 
+                className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: `radial-gradient(280px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), rgba(99, 102, 241, 0.12), transparent 80%)`,
+                  opacity: `var(--spotlight-opacity, 0)`
+                }}
+                aria-hidden="true"
+              />
+              <div 
+                className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-indigo-500/15 dark:border-indigo-400/20"
+                style={{
+                  maskImage: `radial-gradient(140px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), black 100%, transparent 100%)`,
+                  WebkitMaskImage: `radial-gradient(140px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), black 100%, transparent 100%)`,
+                  opacity: `var(--spotlight-opacity, 0)`
+                }}
+                aria-hidden="true"
+              />
+
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110 relative z-10">
+                <img src="/img/yahoo.webp" alt="Yahoo" className="w-10 h-10 sm:w-12 sm:h-12 object-contain" />
               </div>
-              <span className="font-headline-md text-xl sm:text-2xl text-[#410093] dark:text-purple-400 font-extrabold italic tracking-tight">Yahoo!</span>
-              <span className="text-xs text-text-muted mt-1">Motores de búsqueda</span>
+              <span className="font-headline-md text-xl sm:text-2xl text-[#410093] dark:text-purple-400 font-extrabold italic tracking-tight relative z-10">Yahoo!</span>
+              <span className="text-xs text-text-muted mt-1 relative z-10">Motores de búsqueda</span>
             </div>
 
             {/* Maps Block */}
-            <div className="bento-card group bg-slate-50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center shadow-[0px_4px_15px_rgba(0,0,0,0.02)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-outline-variant/10 dark:border-slate-700/30 sm:col-span-1">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-red-100 dark:bg-red-900/30 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
-                <span className="material-symbols-outlined text-red-600 dark:text-red-400 text-2xl sm:text-3xl select-none font-bold" aria-hidden="true">map</span>
+            <div 
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              className="bento-card group relative overflow-hidden bg-slate-50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center shadow-[0px_4px_15px_rgba(0,0,0,0.02)] hover:shadow-xl transition-all duration-300 border border-outline-variant/10 dark:border-slate-700/30 sm:col-span-1"
+            >
+              <div 
+                className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: `radial-gradient(280px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), rgba(99, 102, 241, 0.12), transparent 80%)`,
+                  opacity: `var(--spotlight-opacity, 0)`
+                }}
+                aria-hidden="true"
+              />
+              <div 
+                className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-indigo-500/15 dark:border-indigo-400/20"
+                style={{
+                  maskImage: `radial-gradient(140px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), black 100%, transparent 100%)`,
+                  WebkitMaskImage: `radial-gradient(140px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), black 100%, transparent 100%)`,
+                  opacity: `var(--spotlight-opacity, 0)`
+                }}
+                aria-hidden="true"
+              />
+
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110 relative z-10">
+                <img src="/img/maps.webp" alt="Google Maps" className="w-10 h-10 sm:w-12 sm:h-12 object-contain" />
               </div>
-              <div className="font-bold text-base sm:text-lg dark:text-white">Google Maps</div>
-              <div className="text-xs text-text-muted mt-1 text-center">Búsqueda Local</div>
+              <div className="font-bold text-base sm:text-lg dark:text-white relative z-10">Google Maps</div>
+              <div className="text-xs text-text-muted mt-1 text-center relative z-10">Búsqueda Local</div>
             </div>
 
             {/* Adwords Block (Double space on sm+) */}
-            <div className="bento-card group bg-gradient-to-br from-primary/5 to-secondary/5 dark:from-slate-800/50 dark:to-slate-800/50 hover:from-white hover:to-white dark:hover:bg-slate-800 rounded-2xl sm:rounded-3xl p-4 sm:p-8 flex flex-col items-center justify-center shadow-[0px_4px_15px_rgba(0,0,0,0.02)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-outline-variant/15 dark:border-slate-700/30 col-span-2 sm:col-span-2 min-h-[120px] sm:min-h-[180px]">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary-fixed dark:bg-blue-900/40 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
-                <span className="material-symbols-outlined text-primary dark:text-blue-300 text-2xl sm:text-3xl select-none" aria-hidden="true">ads_click</span>
+            <div 
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              className="bento-card group relative overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/5 dark:from-slate-800/50 dark:to-slate-800/50 hover:from-white hover:to-white dark:hover:bg-slate-800 rounded-2xl sm:rounded-3xl p-4 sm:p-8 flex flex-col items-center justify-center shadow-[0px_4px_15px_rgba(0,0,0,0.02)] hover:shadow-xl transition-all duration-300 border border-outline-variant/15 dark:border-slate-700/30 col-span-2 sm:col-span-2 min-h-[120px] sm:min-h-[180px]"
+            >
+              <div 
+                className="absolute inset-0 rounded-2xl sm:rounded-3xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: `radial-gradient(400px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), rgba(99, 102, 241, 0.12), transparent 80%)`,
+                  opacity: `var(--spotlight-opacity, 0)`
+                }}
+                aria-hidden="true"
+              />
+              <div 
+                className="absolute inset-0 rounded-2xl sm:rounded-3xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-indigo-500/15 dark:border-indigo-400/20"
+                style={{
+                  maskImage: `radial-gradient(160px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), black 100%, transparent 100%)`,
+                  WebkitMaskImage: `radial-gradient(160px circle at var(--spotlight-x, 0px) var(--spotlight-y, 0px), black 100%, transparent 100%)`,
+                  opacity: `var(--spotlight-opacity, 0)`
+                }}
+                aria-hidden="true"
+              />
+
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110 relative z-10">
+                <img src="/img/ads.webp" alt="Google Ads" className="w-10 h-10 sm:w-12 sm:h-12 object-contain" />
               </div>
-              <div className="font-extrabold text-lg sm:text-xl text-primary dark:text-blue-300 tracking-tight">Google Ads</div>
-              <div className="text-xs sm:text-sm text-text-muted mt-1 font-medium text-center">Campañas Publicitarias Pagadas (PPC)</div>
+              <div className="font-extrabold text-lg sm:text-xl text-primary dark:text-blue-300 tracking-tight relative z-10">Google Ads</div>
+              <div className="text-xs sm:text-sm text-text-muted mt-1 font-medium text-center relative z-10">Campañas Publicitarias Pagadas (PPC)</div>
             </div>
           </div>
         </div>

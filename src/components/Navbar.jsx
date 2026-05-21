@@ -84,7 +84,59 @@ export default function Navbar({ currentView, setCurrentView }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isMobileMenuOpen]);
 
-  const toggleDarkMode = () => setIsDarkMode((current) => !current);
+  const toggleDarkMode = (e) => {
+    // Fallback if View Transitions API is not supported or prefers-reduced-motion is active
+    if (
+      !document.startViewTransition ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      setIsDarkMode((current) => !current);
+      return;
+    }
+
+    // Default coordinates in case of keyboard activation
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight / 2;
+
+    if (e && typeof e.clientX === 'number' && e.clientX > 0) {
+      x = e.clientX;
+      y = e.clientY;
+    } else {
+      const rect = e?.currentTarget?.getBoundingClientRect();
+      if (rect) {
+        x = rect.left + rect.width / 2;
+        y = rect.top + rect.height / 2;
+      }
+    }
+
+    // Calculate maximum distance to the furthest corner of the viewport
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    // Call native startViewTransition
+    const transition = document.startViewTransition(() => {
+      setIsDarkMode((current) => !current);
+    });
+
+    // Wait for the transition to be ready to run circular clip-path
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`
+          ]
+        },
+        {
+          duration: 480,
+          ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          pseudoElement: '::view-transition-new(root)'
+        }
+      );
+    });
+  };
 
   // Custom click interceptor to handle switching back to landing page dynamically
   const handleLinkClick = (e, item) => {

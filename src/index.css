@@ -158,6 +158,35 @@ main > section:not(#inicio) {
   animation: progressBar 5000ms linear forwards;
 }
 
+/* Custom View Transitions configuration for premium circular theme change */
+@supports (view-transition-name: none) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  /* Layering the dark/light mode ripple correctly */
+  ::view-transition-old(root) {
+    z-index: 1;
+  }
+  ::view-transition-new(root) {
+    z-index: 9999;
+  }
+
+  .dark::view-transition-old(root) {
+    z-index: 9999;
+  }
+  .dark::view-transition-new(root) {
+    z-index: 1;
+  }
+}
+
+/* 3D Bento spotlight specific smooth resets */
+.bento-card {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
