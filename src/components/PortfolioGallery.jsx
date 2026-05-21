@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { projects } from '../data/projects';
 
-export default function PortfolioGallery({ onBack, onQuoteProject }) {
+export default function PortfolioGallery({ onBack, onViewPlans }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [selectedProject, setSelectedProject] = useState(null);
@@ -34,10 +34,10 @@ export default function PortfolioGallery({ onBack, onQuoteProject }) {
     return matchesCategory && matchesSearch;
   });
 
-  const handleQuoteClick = (project) => {
+  const handleViewPlansClick = (project) => {
     closeProjectDialog();
-    if (onQuoteProject) {
-      onQuoteProject(project);
+    if (onViewPlans) {
+      onViewPlans();
     }
   };
 
@@ -278,10 +278,10 @@ export default function PortfolioGallery({ onBack, onQuoteProject }) {
             {/* Modal Footer */}
             <div className="p-6 border-t border-outline-variant/10 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/30 flex justify-end">
               <button 
-                onClick={() => handleQuoteClick(selectedProject)}
+                onClick={() => handleViewPlansClick(selectedProject)}
                 className="bg-primary hover:bg-primary-container dark:bg-secondary-container dark:text-slate-900 text-on-primary font-bold px-6 py-3 rounded-xl transition-all duration-200 hover:scale-102 shadow-md"
               >
-                Cotizar Proyecto Similar
+                Conoce Nuestros Planes
               </button>
             </div>
           </div>

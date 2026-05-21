@@ -113,9 +113,9 @@ export default function Navbar({ currentView, setCurrentView }) {
       setCurrentView('home');
 
       setTimeout(() => {
-        const contactSection = document.getElementById('contacto');
-        if (contactSection) {
-          contactSection.scrollIntoView({ behavior: 'smooth' });
+        const plansSection = document.getElementById('paquetes');
+        if (plansSection) {
+          plansSection.scrollIntoView({ behavior: 'smooth' });
         }
       }, 200);
     } else {
@@ -195,9 +195,9 @@ export default function Navbar({ currentView, setCurrentView }) {
           <a 
             onClick={handleActionClick}
             className="bg-primary hover:bg-primary-container dark:bg-secondary-container dark:text-slate-900 text-on-primary font-label-md text-label-md px-6 py-3 rounded-full transition-[background-color,transform,box-shadow] duration-300 font-bold min-w-[160px] text-center shadow-[0px_4px_20px_rgba(0,0,0,0.05)] hover:scale-102 hover:shadow-md cursor-pointer text-xs"
-            href="#contacto"
+            href="#paquetes"
           >
-            Cotizar Proyecto
+            Conoce Nuestros Planes
           </a>
         </div>
 
@@ -279,10 +279,10 @@ export default function Navbar({ currentView, setCurrentView }) {
             <div className="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800">
               <a 
                 className="block w-full bg-primary text-on-primary text-center font-bold py-3 rounded-lg hover:bg-primary-container transition-colors shadow-sm cursor-pointer"
-                href="#contacto"
+                href="#paquetes"
                 onClick={handleActionClick}
               >
-                Cotizar Proyecto
+                Conoce Nuestros Planes
               </a>
             </div>
           </div>

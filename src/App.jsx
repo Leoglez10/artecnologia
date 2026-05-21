@@ -14,34 +14,16 @@ function App() {
   // 'home' represents the landing page, 'portfolio' is the standalone full gallery
   const [currentView, setCurrentView] = useState('home');
 
-  // Unified quote prefill dispatcher
-  const handleQuoteProject = (project) => {
+  // Redirect to plans section
+  const handleViewPlans = () => {
     setCurrentView('home');
     
-    // Smooth transition back and scroll to contact form
+    // Smooth transition back and scroll to packages
     setTimeout(() => {
-      const contactSection = document.getElementById('contacto');
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
+      const packagesSection = document.getElementById('paquetes');
+      if (packagesSection) {
+        packagesSection.scrollIntoView({ behavior: 'smooth' });
       }
-
-      // Prefill fields
-      setTimeout(() => {
-        const subjectInput = document.getElementById('asunto');
-        const messageInput = document.getElementById('mensaje');
-
-        if (subjectInput) {
-          subjectInput.value = `Cotización: Similar a ${project.title}`;
-          const event = new Event('input', { bubbles: true });
-          subjectInput.dispatchEvent(event);
-        }
-
-        if (messageInput) {
-          messageInput.value = `Hola, he visto en su portafolio el trabajo de Artecnologia realizado para "${project.title}" (${project.category}).\nMe gustaría cotizar un sitio web similar adaptado a mi negocio.\n\nPor favor contáctenme para platicar detalles.`;
-          const event = new Event('input', { bubbles: true });
-          messageInput.dispatchEvent(event);
-        }
-      }, 500);
     }, 100);
   };
 
@@ -78,7 +60,7 @@ function App() {
         ) : (
           <PortfolioGallery 
             onBack={handleNavigateHome} 
-            onQuoteProject={handleQuoteProject} 
+            onViewPlans={handleViewPlans} 
           />
         )}
       </main>

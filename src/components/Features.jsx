@@ -97,7 +97,7 @@ export default function Features() {
         <div className="features-cta-card mt-20 bg-white/5 dark:bg-slate-900/40 rounded-3xl p-10 max-w-3xl mx-auto border border-white/10 shadow-xl">
           <h3 className="font-headline-md text-xl font-bold mb-4 text-white">¿Listo para dar el siguiente paso?</h3>
           <p className="font-body-md text-slate-200 mb-6 leading-relaxed">
-            Solicita una <strong>asesoría y cotización inicial sin costo alguno</strong>. Con gusto resolveremos todas tus dudas para adaptarnos al mejor precio y a las necesidades específicas de tu negocio.
+            Solicita una <strong>asesoría inicial sin costo alguno</strong>. Con gusto resolveremos todas tus dudas para adaptarnos al mejor precio y a las necesidades específicas de tu negocio.
           </p>
           <a 
             className="bg-white hover:bg-slate-100 text-primary dark:text-slate-950 font-bold px-8 py-3.5 rounded-xl transition-all duration-300 inline-block shadow-lg hover:scale-105" 

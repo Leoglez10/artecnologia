@@ -213,11 +213,11 @@ export default function Portfolio({ onViewAll }) {
             {/* Modal Footer */}
             <div className="p-6 border-t border-outline-variant/10 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/30 flex justify-end">
               <a 
-                href="#contacto"
+                href="#paquetes"
                 onClick={closeProjectDialog}
                 className="bg-primary hover:bg-primary-container dark:bg-secondary-container dark:text-slate-900 text-on-primary font-bold px-6 py-3 rounded-xl transition-all duration-200 hover:scale-102 shadow-md"
               >
-                Cotizar Proyecto Similar
+                Conoce Nuestros Planes
               </a>
             </div>
           </div>

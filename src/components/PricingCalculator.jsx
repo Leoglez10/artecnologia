@@ -73,7 +73,7 @@ const customPackage = {
   name: 'A LA MEDIDA',
   focus: 'Proyectos a gran escala, requerimientos altamente complejos y desarrollo dedicado.',
   price: 'Personalizado',
-  renewal: 'Cotización',
+  renewal: 'A convenir',
   emails: 'Más de 50 cuentas',
   domainAndHost: 'Infraestructura dedicada (Derechos del cliente).',
   validity: 'A convenir',
@@ -236,7 +236,7 @@ export default function PricingCalculator() {
       const messageInput = document.getElementById('mensaje');
 
       if (subjectInput) {
-        subjectInput.value = `Cotización: Paquete ${pkg.name}`;
+        subjectInput.value = `Solicitud: Plan ${pkg.name}`;
         const event = new Event('input', { bubbles: true });
         subjectInput.dispatchEvent(event);
       }
@@ -244,7 +244,7 @@ export default function PricingCalculator() {
       if (messageInput) {
         const msg = pkg.id === 'custom'
           ? `Hola, estoy interesado en un desarrollo A LA MEDIDA de Artecnologia.\n\nRequerimientos:\n- Enfoque: ${projectFocus === 'basic' ? 'Básico / Informativo' : projectFocus === 'growth' ? 'Interactivo y Crecimiento' : 'E-commerce / Educativo'}\n- Correos: Más de 50 cuentas\n- Módulos requeridos: ${Object.keys(features).filter(k => features[k] && k !== 'contactForm').map(k => k === 'userRegistration' ? 'Registro usuarios' : k === 'newsletters' ? 'Newsletters' : k === 'customModules' ? 'Módulos a medida' : k === 'onlineOrders' ? 'Pedidos online' : k === 'shoppingCart' ? 'Carrito de compras' : k === 'onlinePayments' ? 'Pagos en línea' : k === 'moodle' ? 'Moodle' : k).join(', ') || 'Varios a definir'}.\nPor favor contáctenme para agendar una sesión de asesoría técnica.`
-          : `Hola, estoy interesado en contratar el Paquete ${pkg.name}.\n\nDetalles del paquete cotizado:\n- Enfoque: ${pkg.focus}\n- Correos incluidos: ${pkg.emails}\n- Costo Inicial: $${pkg.price} (+ IVA)\n- Renovación Anual: $${pkg.renewal}\n\nPor favor, facilítenme más información sobre los siguientes pasos.`;
+          : `Hola, estoy interesado en contratar el Paquete ${pkg.name}.\n\nDetalles del plan seleccionado:\n- Enfoque: ${pkg.focus}\n- Correos incluidos: ${pkg.emails}\n- Inversión Inicial: $${pkg.price} (+ IVA)\n- Renovación Anual: $${pkg.renewal}\n\nPor favor, facilítenme más información sobre los siguientes pasos.`;
         messageInput.value = msg;
         const event = new Event('input', { bubbles: true });
         messageInput.dispatchEvent(event);
@@ -442,7 +442,7 @@ export default function PricingCalculator() {
               <div className="border-b border-outline-variant/10 dark:border-slate-700/50 pb-5">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-fixed dark:bg-slate-800 text-primary dark:text-secondary-container text-sm font-bold tracking-wider mb-3">
                   <span className="material-symbols-outlined text-sm">settings_suggest</span>
-                  COTIZACIÓN INTELIGENTE
+                  CONFIGURADOR INTELIGENTE
                 </div>
                 <h3 className="font-headline-md text-2xl font-extrabold text-on-surface dark:text-white tracking-tight">
                   Configura tus Requerimientos
@@ -625,7 +625,7 @@ export default function PricingCalculator() {
                     onClick={() => handleSelectPackage(recommendedPkg)}
                     className="bg-primary hover:bg-primary-container dark:bg-secondary-container dark:text-slate-900 text-white font-bold px-6 py-4 rounded-xl transition-all duration-300 hover:scale-102 shadow-md w-full text-sm flex items-center justify-center gap-1.5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                   >
-                    <span>Solicitar Cotización Formal</span>
+                    <span>Solicitar Plan</span>
                     <span className="material-symbols-outlined text-sm font-bold">arrow_forward</span>
                   </button>
 
