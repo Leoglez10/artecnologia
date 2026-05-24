@@ -81,7 +81,7 @@ export default function Hero() {
           <img 
             alt="Dispositivos mostrando sitios web responsivos" 
             className="relative rounded-xl shadow-[0px_20px_40px_rgba(0,0,0,0.1)] w-full h-auto object-cover border border-outline-variant/30 hover:scale-[1.01] transition-transform duration-500" 
-            src="https://lh3.googleusercontent.com/aida/ADBb0ujEc3TJbWnnus055sC2f0uNuqlCFYK_Q2t57dYzOU8HHyoR7C52NV4QU3c43vgr1vVLhW6YvafZ4UlDxbAVeFqFAHdr8-kdGHOfB-nBpq9ZkPdWQA25NNKENp-PEzDgwo7mWocDGoMPdui0VhlMxizxNKXzFl_XAVKchhZVIGCPiiqCmXOTVPZkcUFu-6A2KyQeJT4is7sh95QuJ1widYDEh6vdINAaMT740iP3-f0CF0HJh5MEhj2tsTU"
+            src="/img/hero.webp"
             width="900"
             height="600"
             fetchPriority="high"
